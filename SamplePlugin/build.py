@@ -10,10 +10,9 @@ from qgis_plugin_tools.infrastructure.plugin_maker import PluginMaker
 # Edit the following to match the plugin
 #################################################
 '''
-
 py_files = [fil for fil in glob.glob("**/*.py", recursive=True) if "test/" not in fil]
-locales = ['fi']
-profile = 'default'
+locales = ['fi', 'sv']
+profile = 'pistemeta'
 ui_files = list(glob.glob("**/*.ui", recursive=True))
 resources = list(glob.glob("**/*.qrc", recursive=True))
 extra_dirs = ["resources"]

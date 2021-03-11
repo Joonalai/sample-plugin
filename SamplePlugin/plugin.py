@@ -5,7 +5,9 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QAction, QWidget
 from qgis.gui import QgisInterface
 
+from .core.layer_name_printer import Printer
 from .qgis_plugin_tools.tools.custom_logging import setup_logger, teardown_logger
+from .qgis_plugin_tools.tools.exceptions import QgsPluginException
 from .qgis_plugin_tools.tools.i18n import setup_translation, tr
 from .qgis_plugin_tools.tools.resources import plugin_name
 
@@ -17,7 +19,7 @@ class Plugin:
 
         self.iface = iface
 
-        setup_logger(plugin_name())
+        setup_logger(plugin_name(), iface)
 
         # initialize locale
         locale, file_path = setup_translation()
@@ -33,16 +35,16 @@ class Plugin:
         self.menu = tr(plugin_name())
 
     def add_action(
-            self,
-            icon_path: str,
-            text: str,
-            callback: Callable,
-            enabled_flag: bool = True,
-            add_to_menu: bool = True,
-            add_to_toolbar: bool = True,
-            status_tip: Optional[str] = None,
-            whats_this: Optional[str] = None,
-            parent: Optional[QWidget] = None) -> QAction:
+        self,
+        icon_path: str,
+        text: str,
+        callback: Callable,
+        enabled_flag: bool = True,
+        add_to_menu: bool = True,
+        add_to_toolbar: bool = True,
+        status_tip: Optional[str] = None,
+        whats_this: Optional[str] = None,
+        parent: Optional[QWidget] = None) -> QAction:
         """Add a toolbar icon to the toolbar.
 
         :param icon_path: Path to the icon for this action. Can be a resource
@@ -125,3 +127,6 @@ class Plugin:
     def run(self):
         """Run method that performs all the real work"""
         print("Hello QGIS plugin")
+        printer = Printer()
+
+        printer.print_layer_name(self.iface.activeLayer())
