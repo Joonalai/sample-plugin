@@ -12,11 +12,13 @@ LOGGER = logging.getLogger(plugin_name())
 
 
 class Printer:
-
     @log_if_fails
     def print_layer_name(self, layer: QgsMapLayer):
 
         try:
-            LOGGER.info(tr("Printing layer name"), extra=bar_msg(tr("Layer name is {}", layer.name())))
-        except:
-            raise QgsPluginException("Error occured", bar_msg("Select layer first!"))
+            LOGGER.info(
+                tr("Printing layer name"),
+                extra=bar_msg(tr("Layer name is {}", layer.name())),
+            )
+        except ValueError:
+            raise QgsPluginException("Error occurred", bar_msg("Select layer first!"))
