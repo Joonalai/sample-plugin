@@ -17,7 +17,7 @@ jobs:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           automatic_release_tag: "latest"
           prerelease: true
-          title: "Development Build made for PR #${github.event.number}"
+          title: "Development Build made for PR #${{ github.event.number }}"
 
       - uses: actions/checkout@v2
         with:
@@ -35,5 +35,6 @@ jobs:
       - name: Install qgis-plugin-ci
         run: pip3 install qgis-plugin-ci
 
+      # When Transifex is wanted: --transifex-token ${{ secrets.TRANSIFEX_TOKEN }}
       - name: Deploy plugin
         run: qgis-plugin-ci release latest --github-token ${{ secrets.GITHUB_TOKEN }} --disable-submodule-update
