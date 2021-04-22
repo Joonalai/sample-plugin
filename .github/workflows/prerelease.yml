@@ -15,7 +15,7 @@ jobs:
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "latest"
+          automatic_release_tag: "dev"
           prerelease: true
           title: "Development Build made for PR #${{ github.event.number }}"
 
@@ -37,4 +37,4 @@ jobs:
 
       # When Transifex is wanted: --transifex-token ${{ secrets.TRANSIFEX_TOKEN }}
       - name: Deploy plugin
-        run: qgis-plugin-ci release latest --github-token ${{ secrets.GITHUB_TOKEN }} --disable-submodule-update
+        run: qgis-plugin-ci release dev --github-token ${{ secrets.GITHUB_TOKEN }} --disable-submodule-update
