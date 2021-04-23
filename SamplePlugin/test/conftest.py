@@ -1,3 +1,4 @@
+# type: ignore
 """
 This class contains fixtures and common helper function to keep the test files shorter
 """

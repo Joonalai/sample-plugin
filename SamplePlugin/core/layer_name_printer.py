@@ -13,7 +13,7 @@ LOGGER = logging.getLogger(plugin_name())
 
 class Printer:
     @log_if_fails
-    def print_layer_name(self, layer: QgsMapLayer):
+    def print_layer_name(self, layer: QgsMapLayer) -> None:
 
         try:
             LOGGER.info(

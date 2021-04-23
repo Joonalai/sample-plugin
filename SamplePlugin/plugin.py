@@ -1,4 +1,4 @@
-from typing import Callable, Optional
+from typing import Callable, List, Optional
 
 from PyQt5.QtCore import QCoreApplication, QTranslator
 from PyQt5.QtGui import QIcon
@@ -14,7 +14,7 @@ from .qgis_plugin_tools.tools.resources import plugin_name
 class Plugin:
     """QGIS Plugin Implementation."""
 
-    def __init__(self, iface: QgisInterface):
+    def __init__(self, iface: QgisInterface) -> None:
 
         self.iface = iface
 
@@ -30,7 +30,7 @@ class Plugin:
         else:
             pass
 
-        self.actions = []
+        self.actions: List[QAction] = []
         self.menu = tr(plugin_name())
 
     def add_action(
@@ -99,7 +99,7 @@ class Plugin:
 
         return action
 
-    def initGui(self):  # noqa
+    def initGui(self) -> None:  # noqa N802
         """Create the menu entries and toolbar icons inside the QGIS GUI."""
         self.add_action(
             "",
@@ -109,18 +109,18 @@ class Plugin:
             add_to_toolbar=False,
         )
 
-    def onClosePlugin(self):  # noqa
+    def onClosePlugin(self) -> None:  # noqa N802
         """Cleanup necessary items here when plugin dockwidget is closed"""
         pass
 
-    def unload(self):
+    def unload(self) -> None:
         """Removes the plugin menu item and icon from QGIS GUI."""
         for action in self.actions:
             self.iface.removePluginMenu(tr(plugin_name()), action)
             self.iface.removeToolBarIcon(action)
         teardown_logger(plugin_name())
 
-    def run(self):
+    def run(self) -> None:
         """Run method that performs all the real work"""
         print("Hello QGIS plugin")
         printer = Printer()

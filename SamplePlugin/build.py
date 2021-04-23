@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import glob
+from typing import List
 
 from qgis_plugin_tools.infrastructure.plugin_maker import PluginMaker
 
@@ -16,7 +17,7 @@ profile = "pistemeta"
 ui_files = list(glob.glob("**/*.ui", recursive=True))
 resources = list(glob.glob("**/*.qrc", recursive=True))
 extra_dirs = ["resources"]
-compiled_resources = []
+compiled_resources: List[str] = []
 
 PluginMaker(
     py_files=py_files,
