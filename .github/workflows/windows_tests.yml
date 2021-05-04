@@ -25,4 +25,12 @@ jobs:
       - name: Choco install qgis
         uses: crazy-max/ghaction-chocolatey@v1
         with:
-          args: install qgis-ltr -y --verbose
+          args: install qgis-ltr -y
+
+      - name: Run tests
+        shell: pwsh
+        run: |
+          $env:PATH="C:\Program Files\QGIS 3.16\bin;$env:PATH"
+          $env:QGIS_PLUGIN_IN_CI=1
+          python-qgis-ltr.bat -m pip install -q pytest
+          python-qgis-ltr.bat -m pytest -v
