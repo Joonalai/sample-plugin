@@ -1,13 +1,12 @@
-from typing import Callable, Optional
+from typing import Callable, List, Optional
 
-from PyQt5.QtCore import QTranslator, QCoreApplication
+from PyQt5.QtCore import QCoreApplication, QTranslator
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QAction, QWidget
 from qgis.gui import QgisInterface
 
 from .core.layer_name_printer import Printer
 from .qgis_plugin_tools.tools.custom_logging import setup_logger, teardown_logger
-from .qgis_plugin_tools.tools.exceptions import QgsPluginException
 from .qgis_plugin_tools.tools.i18n import setup_translation, tr
 from .qgis_plugin_tools.tools.resources import plugin_name
 
@@ -15,7 +14,7 @@ from .qgis_plugin_tools.tools.resources import plugin_name
 class Plugin:
     """QGIS Plugin Implementation."""
 
-    def __init__(self, iface: QgisInterface):
+    def __init__(self, iface: QgisInterface) -> None:
 
         self.iface = iface
 
@@ -31,7 +30,7 @@ class Plugin:
         else:
             pass
 
-        self.actions = []
+        self.actions: List[QAction] = []
         self.menu = tr(plugin_name())
 
     def add_action(
@@ -44,7 +43,8 @@ class Plugin:
         add_to_toolbar: bool = True,
         status_tip: Optional[str] = None,
         whats_this: Optional[str] = None,
-        parent: Optional[QWidget] = None) -> QAction:
+        parent: Optional[QWidget] = None,
+    ) -> QAction:
         """Add a toolbar icon to the toolbar.
 
         :param icon_path: Path to the icon for this action. Can be a resource
@@ -93,38 +93,34 @@ class Plugin:
             self.iface.addToolBarIcon(action)
 
         if add_to_menu:
-            self.iface.addPluginToMenu(
-                self.menu,
-                action)
+            self.iface.addPluginToMenu(self.menu, action)
 
         self.actions.append(action)
 
         return action
 
-    def initGui(self):
+    def initGui(self) -> None:  # noqa N802
         """Create the menu entries and toolbar icons inside the QGIS GUI."""
         self.add_action(
             "",
             text=tr(plugin_name()),
             callback=self.run,
             parent=self.iface.mainWindow(),
-            add_to_toolbar=False
+            add_to_toolbar=False,
         )
 
-    def onClosePlugin(self):
+    def onClosePlugin(self) -> None:  # noqa N802
         """Cleanup necessary items here when plugin dockwidget is closed"""
         pass
 
-    def unload(self):
+    def unload(self) -> None:
         """Removes the plugin menu item and icon from QGIS GUI."""
         for action in self.actions:
-            self.iface.removePluginMenu(
-                tr(plugin_name()),
-                action)
+            self.iface.removePluginMenu(tr(plugin_name()), action)
             self.iface.removeToolBarIcon(action)
         teardown_logger(plugin_name())
 
-    def run(self):
+    def run(self) -> None:
         """Run method that performs all the real work"""
         print("Hello QGIS plugin")
         printer = Printer()

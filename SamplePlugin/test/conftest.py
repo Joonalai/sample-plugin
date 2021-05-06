@@ -1,3 +1,4 @@
+# type: ignore
 """
 This class contains fixtures and common helper function to keep the test files shorter
 """
@@ -9,7 +10,7 @@ from ..qgis_plugin_tools.testing.utilities import get_qgis_app
 QGIS_APP, CANVAS, IFACE, PARENT = get_qgis_app()
 
 
-@pytest.fixture(scope='function')
+@pytest.fixture(scope="function")
 def new_project() -> None:
     """Initializes new QGIS project by removing layers and relations etc."""
     yield IFACE.newProject()
